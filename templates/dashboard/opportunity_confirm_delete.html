@@ -1,0 +1,32 @@
+{% extends "dashboard/base.html" %}
+
+{% block title %}{{ page_title }} | OpportunityHub Dashboard{% endblock %}
+{% block page_title %}{{ page_title }}{% endblock %}
+
+{% block content %}
+  <section class="dashboard-card delete-card">
+    <div class="alert alert-danger mb-4">
+      <h2 class="h5">Confirm deletion</h2>
+      <p class="mb-0">You are about to delete this opportunity. This action cannot be undone.</p>
+    </div>
+
+    <dl class="row">
+      <dt class="col-sm-3">Title</dt>
+      <dd class="col-sm-9">{{ opportunity.title }}</dd>
+      <dt class="col-sm-3">Type</dt>
+      <dd class="col-sm-9">{{ opportunity.get_opportunity_type_display }}</dd>
+      <dt class="col-sm-3">Organization</dt>
+      <dd class="col-sm-9">{{ opportunity.organization.name }}</dd>
+      <dt class="col-sm-3">Deadline</dt>
+      <dd class="col-sm-9">{% if opportunity.deadline %}{{ opportunity.deadline|date:"M d, Y" }}{% else %}-{% endif %}</dd>
+    </dl>
+
+    <form method="post">
+      {% csrf_token %}
+      <div class="d-flex flex-wrap justify-content-end gap-2 border-top pt-4 mt-4">
+        <a class="btn btn-outline-secondary" href="{% url 'dashboard:opportunities' %}">Cancel</a>
+        <button class="btn btn-danger" type="submit">Delete Opportunity</button>
+      </div>
+    </form>
+  </section>
+{% endblock %}

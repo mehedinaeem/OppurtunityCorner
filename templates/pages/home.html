@@ -1,0 +1,179 @@
+{% extends "base.html" %}
+
+{% block title %}OpportunityHub | Scholarships, Jobs, Internships and Fellowships{% endblock %}
+{% block meta_description %}Find scholarships, internships, jobs, fellowships, deadline reminders and global opportunity updates on OpportunityHub.{% endblock %}
+{% block og_title %}OpportunityHub | Global Opportunity Updates{% endblock %}
+{% block og_description %}Find scholarships, jobs, internships, fellowships and other global opportunities in one clean platform.{% endblock %}
+{% block twitter_title %}OpportunityHub | Global Opportunity Updates{% endblock %}
+{% block twitter_description %}Find scholarships, jobs, internships, fellowships and other global opportunities in one clean platform.{% endblock %}
+
+{% block content %}
+  <section class="hero-section home-hero py-5">
+    <div class="container py-lg-5">
+      <div class="row align-items-center g-5">
+        <div class="col-lg-8">
+          <p class="text-success fw-semibold text-uppercase small mb-3">Scholarships, internships, jobs and fellowships</p>
+          <h1 class="display-4 fw-bold mb-4">Find your next opportunity faster.</h1>
+          <p class="lead text-secondary mb-4">Search curated funding, career, research and training updates from trusted organizations around the world.</p>
+          <form class="hero-search bg-white border rounded-3 p-2" action="{% url 'opportunities:search' %}" method="get" role="search">
+            <div class="row g-2">
+              <div class="col-md">
+                <label class="visually-hidden" for="home-search">Search opportunities</label>
+                <input class="form-control form-control-lg border-0" id="home-search" type="search" name="q" placeholder="Search by keyword, country, organization or tag">
+              </div>
+              <div class="col-md-auto">
+                <button class="btn btn-success btn-lg w-100" type="submit">Search</button>
+              </div>
+            </div>
+          </form>
+          <div class="d-flex flex-wrap gap-2 mt-3 small">
+            <span class="text-secondary">Popular:</span>
+            <a href="{% url 'opportunities:list' %}?funding_type=fully_funded">Fully funded</a>
+            <a href="{% url 'opportunities:list' %}?deadline=upcoming">Upcoming deadlines</a>
+            <a href="{% url 'opportunities:list' %}?education_level=any">Any education level</a>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="hero-panel p-4">
+            <h2 class="h5 mb-3">What you can browse</h2>
+            <ul class="list-unstyled mb-0 text-secondary">
+              <li class="mb-2">Verified official application links</li>
+              <li class="mb-2">Deadline-aware opportunity listings</li>
+              <li class="mb-2">Country and category filters</li>
+              <li>Newsletter updates for new posts</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-5">
+    <div class="container">
+      <div class="section-heading mb-4">
+        <h2 class="h3 mb-1">Explore by Category</h2>
+        <p class="text-secondary mb-0">Jump into the most popular opportunity types.</p>
+      </div>
+      <div class="row g-4">
+        <div class="col-sm-6 col-xl-3">
+          <a class="category-card" href="{% url 'opportunities:list' %}?opportunity_type=scholarship">
+            <span class="category-card-label">Scholarships</span>
+            <span>Funding for undergraduate, graduate and research study.</span>
+          </a>
+        </div>
+        <div class="col-sm-6 col-xl-3">
+          <a class="category-card" href="{% url 'opportunities:list' %}?opportunity_type=internship">
+            <span class="category-card-label">Internships</span>
+            <span>Early-career experience, training and practical placements.</span>
+          </a>
+        </div>
+        <div class="col-sm-6 col-xl-3">
+          <a class="category-card" href="{% url 'opportunities:list' %}?opportunity_type=job">
+            <span class="category-card-label">Jobs</span>
+            <span>Career openings from organizations and programs.</span>
+          </a>
+        </div>
+        <div class="col-sm-6 col-xl-3">
+          <a class="category-card" href="{% url 'opportunities:list' %}?opportunity_type=fellowship">
+            <span class="category-card-label">Fellowships</span>
+            <span>Professional, academic and leadership fellowships.</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {% include "opportunities/includes/opportunity_section.html" with title="Featured Opportunities" opportunities=featured_opportunities empty_message="Featured opportunities will appear here soon." %}
+  {% include "opportunities/includes/opportunity_section.html" with title="Latest Opportunities" opportunities=latest_opportunities empty_message="Latest opportunities will appear here soon." %}
+  {% include "opportunities/includes/opportunity_section.html" with title="Deadline Approaching" opportunities=deadline_approaching empty_message="No deadlines are approaching in the next 30 days." %}
+
+  <section class="py-5">
+    <div class="container">
+      <div class="d-flex align-items-center justify-content-between gap-3 mb-4">
+        <div>
+          <h2 class="h3 mb-1">Country-Wise Opportunities</h2>
+          <p class="text-secondary mb-0">Browse opportunities by destination or host country.</p>
+        </div>
+        <a class="small fw-semibold text-success text-decoration-none" href="{% url 'opportunities:list' %}">View all</a>
+      </div>
+      {% if country_opportunities %}
+        <div class="row g-3">
+          {% for country in country_opportunities %}
+            <div class="col-sm-6 col-lg-3">
+              <a class="country-card" href="{{ country.get_absolute_url }}">
+                <span class="fw-semibold">{{ country.name }}</span>
+                <span class="badge text-bg-light border">{{ country.published_count }} update{{ country.published_count|pluralize }}</span>
+              </a>
+            </div>
+          {% endfor %}
+        </div>
+      {% else %}
+        <div class="empty-state">Country-wise opportunities will appear after published listings are added.</div>
+      {% endif %}
+    </div>
+  </section>
+
+  <section class="py-5 bg-white border-top border-bottom">
+    <div class="container">
+      <div class="d-flex align-items-center justify-content-between gap-3 mb-4">
+        <div class="section-heading">
+          <h2 class="h3 mb-1">Guide Articles</h2>
+          <p class="text-secondary mb-0">Helpful application guides and career resources.</p>
+        </div>
+        <a class="small fw-semibold text-success text-decoration-none" href="{% url 'guides:list' %}">View all guides</a>
+      </div>
+      {% if latest_guides %}
+        <div class="row g-4">
+          {% for post in latest_guides %}
+            <div class="col-md-4">
+              {% include "guides/includes/guide_card.html" %}
+            </div>
+          {% endfor %}
+        </div>
+      {% else %}
+        <div class="row g-4">
+          <div class="col-md-4">
+            <div class="guide-card">
+              <p class="text-success fw-semibold small text-uppercase mb-2">Coming Soon</p>
+              <h3 class="h5">How to Prepare a Strong Scholarship Application</h3>
+              <p class="text-secondary mb-0">A practical guide for essays, documents and deadlines.</p>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="guide-card">
+              <p class="text-success fw-semibold small text-uppercase mb-2">Coming Soon</p>
+              <h3 class="h5">Internship Application Checklist</h3>
+              <p class="text-secondary mb-0">What to prepare before applying for competitive internships.</p>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="guide-card">
+              <p class="text-success fw-semibold small text-uppercase mb-2">Coming Soon</p>
+              <h3 class="h5">Finding Opportunities by Country</h3>
+              <p class="text-secondary mb-0">How to shortlist programs by location, funding and eligibility.</p>
+            </div>
+          </div>
+        </div>
+      {% endif %}
+    </div>
+  </section>
+
+  <section class="py-5">
+    <div class="container">
+      {% include "newsletter/includes/subscribe_form.html" with title="Never Miss an Opportunity" title_class="h3" description="Get curated scholarships, jobs, internships and fellowships delivered to your inbox." show_name=True form_id="home-newsletter" email_col="col-md-7" button_col="col-md-3" %}
+    </div>
+  </section>
+
+  <section class="pb-5">
+    <div class="container">
+      <div class="advertise-cta bg-success text-white rounded-3 p-4 p-lg-5 d-flex flex-column flex-lg-row align-items-lg-center justify-content-between gap-4">
+        <div>
+          <p class="fw-semibold text-uppercase small mb-2">For universities, employers and programs</p>
+          <h2 class="h3 mb-2">Advertise your opportunity with us.</h2>
+          <p class="mb-0">Promote featured listings, sponsored posts, newsletter placements, banners or social media campaigns.</p>
+        </div>
+        <a class="btn btn-light btn-lg flex-shrink-0" href="{% url 'pages:advertise' %}">Advertise With Us</a>
+      </div>
+    </div>
+  </section>
+{% endblock %}

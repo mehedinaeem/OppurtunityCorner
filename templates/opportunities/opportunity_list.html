@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}{{ page_title }} | OpportunityHub{% endblock %}
+{% block meta_description %}{{ page_description }}{% endblock %}
+
+{% block content %}
+  <section class="page-heading py-5">
+    <div class="container">
+      <h1 class="display-6 fw-bold mb-3">{{ page_title }}</h1>
+      <p class="lead text-secondary mb-0">{{ page_description }}</p>
+    </div>
+  </section>
+
+  <section class="py-4">
+    <div class="container">
+      {% include "opportunities/includes/filter_form.html" %}
+
+      {% if opportunities.object_list %}
+        <div class="row g-4">
+          {% for opportunity in opportunities %}
+            <div class="col-md-6 col-xl-4">
+              {% include "opportunities/includes/opportunity_card.html" %}
+            </div>
+          {% endfor %}
+        </div>
+        {% include "opportunities/includes/pagination.html" %}
+      {% else %}
+        <div class="empty-state">No opportunities found. Try changing the filters.</div>
+      {% endif %}
+    </div>
+  </section>
+{% endblock %}

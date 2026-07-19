@@ -1,0 +1,19 @@
+<section class="py-4">
+  <div class="container">
+    <div class="d-flex align-items-center justify-content-between gap-3 mb-3">
+      <h2 class="h3 mb-0">{{ title }}</h2>
+      <a class="small fw-semibold text-success text-decoration-none" href="{% url 'opportunities:list' %}">View all</a>
+    </div>
+    {% if opportunities %}
+      <div class="row g-4">
+        {% for opportunity in opportunities %}
+          <div class="col-md-6 col-xl-3">
+            {% include "opportunities/includes/opportunity_card.html" %}
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="empty-state">{{ empty_message }}</div>
+    {% endif %}
+  </div>
+</section>

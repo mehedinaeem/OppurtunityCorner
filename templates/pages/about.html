@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}About | OpportunityHub{% endblock %}
+{% block meta_description %}Learn about OpportunityHub and how we help readers discover scholarships, jobs, internships and fellowships.{% endblock %}
+
+{% block content %}
+  {% include "pages/includes/page_header.html" with title="About OpportunityHub" description="We collect and organize trusted opportunity updates so students, graduates and professionals can find the next step faster." %}
+
+  <section class="container py-5">
+    <div class="row g-4">
+      <div class="col-lg-8">
+        <div class="content-block bg-white border rounded-3 p-4">
+          <h2 class="h4 mb-3">What We Do</h2>
+          <p>OpportunityHub is a public resource for scholarships, internships, jobs, fellowships, exchange programs, competitions and training opportunities.</p>
+          <p>Our goal is to make discovery simple: clear categories, useful filters, official application links and concise summaries that help readers decide what fits their goals.</p>
+          <h2 class="h4 mt-4 mb-3">Our Editorial Approach</h2>
+          <p class="mb-0">We prioritize official sources, timely deadlines and practical details. Every listing should point readers toward the original application page whenever possible.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock %}

@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}Advertise With Us | OpportunityHub{% endblock %}
+{% block meta_description %}Advertise with OpportunityHub through featured listings, sponsored posts, newsletter sponsorship, banners and social media promotion.{% endblock %}
+
+{% block content %}
+  {% include "pages/includes/page_header.html" with title="Advertise With Us" description="Reach students, graduates, early-career professionals and opportunity seekers through focused placements." %}
+
+  <section class="container py-5">
+    <div class="row g-4">
+      <div class="col-md-6 col-xl-4">
+        <div class="bg-white border rounded-3 p-4 h-100">
+          <h2 class="h5">Featured Opportunity Listing</h2>
+          <p class="text-secondary mb-0">Highlight your scholarship, job, internship, fellowship or program in prominent website sections.</p>
+        </div>
+      </div>
+      <div class="col-md-6 col-xl-4">
+        <div class="bg-white border rounded-3 p-4 h-100">
+          <h2 class="h5">Sponsored Post</h2>
+          <p class="text-secondary mb-0">Publish a dedicated sponsored article explaining your program, audience, benefits and application process.</p>
+        </div>
+      </div>
+      <div class="col-md-6 col-xl-4">
+        <div class="bg-white border rounded-3 p-4 h-100">
+          <h2 class="h5">Newsletter Sponsorship</h2>
+          <p class="text-secondary mb-0">Place your message inside email updates sent to readers interested in new opportunities.</p>
+        </div>
+      </div>
+      <div class="col-md-6 col-xl-4">
+        <div class="bg-white border rounded-3 p-4 h-100">
+          <h2 class="h5">Banner Placement</h2>
+          <p class="text-secondary mb-0">Run banner placements on high-traffic pages such as the homepage, list pages or detail pages.</p>
+        </div>
+      </div>
+      <div class="col-md-6 col-xl-4">
+        <div class="bg-white border rounded-3 p-4 h-100">
+          <h2 class="h5">Social Media Promotion</h2>
+          <p class="text-secondary mb-0">Promote your opportunity through social channels for extra reach beyond website visitors.</p>
+        </div>
+      </div>
+      <div class="col-md-6 col-xl-4">
+        <div class="bg-success text-white rounded-3 p-4 h-100">
+          <h2 class="h5">Plan a Campaign</h2>
+          <p>Tell us your target audience, deadline and preferred placement.</p>
+          <a class="btn btn-light" href="{% url 'pages:contact' %}">Contact Us</a>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}Submit Opportunity | OpportunityHub{% endblock %}
+{% block meta_description %}Submit a scholarship, job, internship, fellowship or other opportunity for admin review on OpportunityHub.{% endblock %}
+
+{% block content %}
+  {% include "pages/includes/page_header.html" with title="Submit Opportunity" description="Share an opportunity with our editors. Submissions are reviewed before publication and are not published automatically." %}
+
+  <section class="container py-5">
+    <div class="row g-4">
+      <div class="col-lg-8">
+        <form class="bg-white border rounded-3 p-4" method="post" novalidate>
+          {% csrf_token %}
+          {{ form.non_field_errors }}
+          {% for field in form %}
+            {% include "pages/includes/field.html" %}
+          {% endfor %}
+          <button class="btn btn-success btn-lg" type="submit">Submit for Review</button>
+        </form>
+      </div>
+      <div class="col-lg-4">
+        <div class="bg-white border rounded-3 p-4">
+          <h2 class="h5 mb-3">Review Only</h2>
+          <p class="text-secondary mb-0">Submitted opportunities are saved for admin review. Our team may verify the official link, edit details, or decline submissions that do not fit the website.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock %}

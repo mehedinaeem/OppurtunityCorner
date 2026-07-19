@@ -1,0 +1,62 @@
+<form class="filters bg-white border rounded-3 p-3 mb-4" method="get">
+  <div class="row g-3">
+    <div class="col-md-6 col-xl-2">
+      <label class="form-label small fw-semibold" for="category">Category</label>
+      <select class="form-select" id="category" name="category">
+        <option value="">All categories</option>
+        {% for category in categories %}
+          <option value="{{ category.slug }}" {% if selected.category == category.slug %}selected{% endif %}>{{ category.name }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="col-md-6 col-xl-2">
+      <label class="form-label small fw-semibold" for="opportunity_type">Type</label>
+      <select class="form-select" id="opportunity_type" name="opportunity_type">
+        <option value="">All types</option>
+        {% for value,label in opportunity_type_choices %}
+          <option value="{{ value }}" {% if selected.opportunity_type == value %}selected{% endif %}>{{ label }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="col-md-6 col-xl-2">
+      <label class="form-label small fw-semibold" for="country">Country</label>
+      <select class="form-select" id="country" name="country">
+        <option value="">All countries</option>
+        {% for country in countries %}
+          <option value="{{ country.slug }}" {% if selected.country == country.slug %}selected{% endif %}>{{ country.name }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="col-md-6 col-xl-2">
+      <label class="form-label small fw-semibold" for="funding_type">Funding</label>
+      <select class="form-select" id="funding_type" name="funding_type">
+        <option value="">Any funding</option>
+        {% for value,label in funding_type_choices %}
+          <option value="{{ value }}" {% if selected.funding_type == value %}selected{% endif %}>{{ label }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="col-md-6 col-xl-2">
+      <label class="form-label small fw-semibold" for="education_level">Education</label>
+      <select class="form-select" id="education_level" name="education_level">
+        <option value="">Any level</option>
+        {% for value,label in education_level_choices %}
+          <option value="{{ value }}" {% if selected.education_level == value %}selected{% endif %}>{{ label }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="col-md-6 col-xl-2">
+      <label class="form-label small fw-semibold" for="deadline">Deadline</label>
+      <select class="form-select" id="deadline" name="deadline">
+        <option value="">Any deadline</option>
+        <option value="upcoming" {% if selected.deadline == "upcoming" %}selected{% endif %}>Upcoming</option>
+        <option value="expired" {% if selected.deadline == "expired" %}selected{% endif %}>Expired</option>
+        <option value="no_deadline" {% if selected.deadline == "no_deadline" %}selected{% endif %}>No deadline</option>
+      </select>
+    </div>
+  </div>
+  <div class="d-flex gap-2 mt-3">
+    <button class="btn btn-success" type="submit">Apply Filters</button>
+    <a class="btn btn-outline-secondary" href="{% url 'opportunities:list' %}">Reset</a>
+  </div>
+</form>

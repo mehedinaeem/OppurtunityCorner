@@ -1,0 +1,6 @@
+{% if body %}
+  <section class="content-block bg-white border rounded-3 p-4 mb-4">
+    <h2 class="h4 mb-3">{{ title }}</h2>
+    <div class="content-body">{{ body|linebreaks }}</div>
+  </section>
+{% endif %}

@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+
+{% block title %}{{ post.seo_title }} | OpportunityHub Guides{% endblock %}
+{% block meta_description %}{{ post.seo_description|truncatewords:28 }}{% endblock %}
+{% block canonical_url %}{{ canonical_url }}{% endblock %}
+{% block og_type %}article{% endblock %}
+{% block og_title %}{{ post.seo_title }}{% endblock %}
+{% block og_description %}{{ post.seo_description|truncatewords:28 }}{% endblock %}
+{% block og_image %}{% if og_image %}<meta property="og:image" content="{{ og_image }}">{% endif %}{% endblock %}
+{% block twitter_card %}{% if og_image %}summary_large_image{% else %}summary{% endif %}{% endblock %}
+{% block twitter_title %}{{ post.seo_title }}{% endblock %}
+{% block twitter_description %}{{ post.seo_description|truncatewords:28 }}{% endblock %}
+{% block twitter_image %}{% if og_image %}<meta name="twitter:image" content="{{ og_image }}">{% endif %}{% endblock %}
+
+{% block content %}
+  {% if dashboard_preview %}
+    <section class="dashboard-preview-bar bg-dark text-white py-3">
+      <div class="container d-flex flex-column flex-lg-row align-items-lg-center justify-content-between gap-3">
+        <div>
+          <p class="text-uppercase small fw-semibold mb-1">Dashboard Preview</p>
+          <div class="small text-white-50">
+            {% if post.is_published %}This guide is published.{% else %}This guide is currently a draft.{% endif %}
+          </div>
+        </div>
+        <div class="d-flex flex-wrap gap-2">
+          <a class="btn btn-outline-light btn-sm" href="{% url 'dashboard:edit_guide' post.pk %}">Edit</a>
+          <a class="btn btn-outline-light btn-sm" href="{% url 'dashboard:guides' %}">Back to Guides</a>
+        </div>
+      </div>
+    </section>
+  {% endif %}
+
+  <nav class="breadcrumb-wrap bg-white border-bottom" aria-label="breadcrumb">
+    <div class="container py-3">
+      <ol class="breadcrumb mb-0 small">
+        <li class="breadcrumb-item"><a href="{% url 'pages:home' %}">Home</a></li>
+        <li class="breadcrumb-item"><a href="{% url 'guides:list' %}">Guides</a></li>
+        <li class="breadcrumb-item"><a href="{{ post.category.get_absolute_url }}">{{ post.category.name }}</a></li>
+        <li class="breadcrumb-item active" aria-current="page">{{ post.title|truncatechars:48 }}</li>
+      </ol>
+    </div>
+  </nav>
+
+  <article>
+    <section class="detail-hero py-5">
+      <div class="container">
+        <div class="col-lg-9">
+          <p class="text-success fw-semibold text-uppercase small mb-3">{{ post.category.name }}</p>
+          <h1 class="display-6 fw-bold mb-3">{{ post.title }}</h1>
+          <p class="lead text-secondary mb-4">{{ post.short_description }}</p>
+          <div class="small text-secondary">
+            {% if post.author_name %}By {{ post.author_name }} &middot; {% endif %}Published {{ post.created_at|date:"F d, Y" }}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    {% if post.image %}
+      <section class="container my-4">
+        <img class="detail-image" src="{{ post.image.url }}" alt="{{ post.title }}">
+      </section>
+    {% endif %}
+
+    <section class="container py-4">
+      <div class="row g-4">
+        <div class="col-lg-8">
+          <div class="content-block bg-white border rounded-3 p-4">
+            <div class="content-body">{{ post.content|linebreaks }}</div>
+          </div>
+        </div>
+        <aside class="col-lg-4">
+          <div class="bg-white border rounded-3 p-4 mb-4">
+            <h2 class="h5 mb-3">Guide Category</h2>
+            <a class="fw-semibold" href="{{ post.category.get_absolute_url }}">{{ post.category.name }}</a>
+            {% if post.category.description %}
+              <p class="small text-secondary mt-2 mb-0">{{ post.category.description }}</p>
+            {% endif %}
+          </div>
+          {% include "newsletter/includes/subscribe_form.html" with title="Get New Guides" description="Subscribe for practical guides and new opportunity updates." show_name=True form_id="guide-newsletter" %}
+        </aside>
+      </div>
+    </section>
+  </article>
+
+  <section class="py-4">
+    <div class="container">
+      <h2 class="h3 mb-3">Related Guides</h2>
+      {% if related_posts %}
+        <div class="row g-4">
+          {% for post in related_posts %}
+            <div class="col-md-6 col-xl-4">
+              {% include "guides/includes/guide_card.html" %}
+            </div>
+          {% endfor %}
+        </div>
+      {% else %}
+        <div class="empty-state">Related guides will appear as more articles are published.</div>
+      {% endif %}
+    </div>
+  </section>
+{% endblock %}

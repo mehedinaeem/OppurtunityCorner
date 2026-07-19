@@ -1,0 +1,66 @@
+{% extends "dashboard/base.html" %}
+
+{% block title %}{{ page_title }} | OpportunityHub Dashboard{% endblock %}
+{% block page_title %}{{ page_title }}{% endblock %}
+
+{% block content %}
+  <section class="dashboard-card">
+    <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-3">
+      <p class="text-secondary mb-0">Manage opportunity content and publishing status.</p>
+      <a class="btn btn-success btn-sm" href="{% url 'dashboard:create_opportunity' %}">Add Opportunity</a>
+    </div>
+
+    <form class="dashboard-filter-form border rounded-3 p-3 mb-4" method="get">
+      <div class="row g-3">
+        <div class="col-lg-3 col-md-6">
+          <label class="form-label small fw-semibold" for="q">Search</label>
+          <input class="form-control" id="q" type="search" name="q" value="{{ selected.q }}" placeholder="Title or organization">
+        </div>
+        <div class="col-lg-2 col-md-6">
+          <label class="form-label small fw-semibold" for="opportunity_type">Type</label>
+          <select class="form-select" id="opportunity_type" name="opportunity_type">
+            <option value="">All types</option>
+            {% for value,label in opportunity_type_choices %}
+              <option value="{{ value }}" {% if selected.opportunity_type == value %}selected{% endif %}>{{ label }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="col-lg-2 col-md-6">
+          <label class="form-label small fw-semibold" for="category">Category</label>
+          <select class="form-select" id="category" name="category">
+            <option value="">All categories</option>
+            {% for category in categories %}
+              <option value="{{ category.pk }}" {% if selected.category == category.pk|stringformat:"s" %}selected{% endif %}>{{ category.name }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="col-lg-2 col-md-6">
+          <label class="form-label small fw-semibold" for="country">Country</label>
+          <select class="form-select" id="country" name="country">
+            <option value="">All countries</option>
+            {% for country in countries %}
+              <option value="{{ country.pk }}" {% if selected.country == country.pk|stringformat:"s" %}selected{% endif %}>{{ country.name }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="col-lg-2 col-md-6">
+          <label class="form-label small fw-semibold" for="is_published">Published</label>
+          <select class="form-select" id="is_published" name="is_published">
+            <option value="">Any</option>
+            <option value="true" {% if selected.is_published == "true" %}selected{% endif %}>Published</option>
+            <option value="false" {% if selected.is_published == "false" %}selected{% endif %}>Draft</option>
+          </select>
+        </div>
+        <div class="col-lg-1 col-md-6 d-flex align-items-end">
+          <button class="btn btn-success w-100" type="submit">Filter</button>
+        </div>
+      </div>
+      <div class="mt-3">
+        <a class="small text-decoration-none" href="{% url 'dashboard:opportunities' %}">Clear filters</a>
+      </div>
+    </form>
+
+    {% include "dashboard/includes/opportunity_table.html" with opportunities=opportunities %}
+    {% include "dashboard/includes/pagination.html" with page_obj=opportunities query_string=query_string %}
+  </section>
+{% endblock %}

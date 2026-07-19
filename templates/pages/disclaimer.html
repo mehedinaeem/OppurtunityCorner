@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}Disclaimer | OpportunityHub{% endblock %}
+{% block meta_description %}Read the OpportunityHub disclaimer about opportunity listings, external links and official applications.{% endblock %}
+
+{% block content %}
+  {% include "pages/includes/page_header.html" with title="Disclaimer" description="Important notes about listings, deadlines and external application links." %}
+
+  <section class="container py-5">
+    <div class="content-block bg-white border rounded-3 p-4">
+      <p>OpportunityHub is an information website. We are not the official provider of most listed scholarships, jobs, internships, fellowships or programs.</p>
+      <p>Application rules, deadlines, funding details and eligibility requirements belong to the official organization and may change without notice.</p>
+      <p class="mb-0">Before applying, always read the official opportunity page and follow the official instructions.</p>
+    </div>
+  </section>
+{% endblock %}

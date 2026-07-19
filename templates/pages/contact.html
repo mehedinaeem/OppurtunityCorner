@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}Contact | OpportunityHub{% endblock %}
+{% block meta_description %}Contact OpportunityHub with questions, feedback, partnership ideas or correction requests.{% endblock %}
+
+{% block content %}
+  {% include "pages/includes/page_header.html" with title="Contact Us" description="Send us a question, correction, partnership note or general message." %}
+
+  <section class="container py-5">
+    <div class="row g-4">
+      <div class="col-lg-7">
+        <form class="bg-white border rounded-3 p-4" method="post" novalidate>
+          {% csrf_token %}
+          {{ form.non_field_errors }}
+          {% for field in form %}
+            {% include "pages/includes/field.html" %}
+          {% endfor %}
+          <button class="btn btn-success btn-lg" type="submit">Send Message</button>
+        </form>
+      </div>
+      <div class="col-lg-5">
+        <div class="bg-white border rounded-3 p-4 h-100">
+          <h2 class="h4 mb-3">Before You Write</h2>
+          <p class="text-secondary">For opportunity corrections, please include the title and official source URL. For advertising or sponsorship, mention your campaign goals and preferred dates.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock %}

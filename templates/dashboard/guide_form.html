@@ -1,0 +1,76 @@
+{% extends "dashboard/base.html" %}
+
+{% block title %}{{ page_title }} | OpportunityHub Dashboard{% endblock %}
+{% block page_title %}{{ page_title }}{% endblock %}
+
+{% block content %}
+  <form class="opportunity-editor" method="post" enctype="multipart/form-data" novalidate>
+    {% csrf_token %}
+    {% if form.non_field_errors %}
+      <div class="alert alert-danger">
+        {{ form.non_field_errors }}
+      </div>
+    {% endif %}
+
+    <div class="row g-4">
+      <div class="col-xl-8">
+        <section class="dashboard-card form-section-card mb-4">
+          <div class="form-section-header">
+            <span>1</span>
+            <div>
+              <h2 class="h5 mb-1">Guide Content</h2>
+              <p class="text-secondary small mb-0">Write the main guide article and summary.</p>
+            </div>
+          </div>
+          {% include "dashboard/includes/form_field.html" with field=form.title %}
+          <div class="row g-3">
+            <div class="col-md-6">{% include "dashboard/includes/form_field.html" with field=form.category %}</div>
+            <div class="col-md-6">{% include "dashboard/includes/form_field.html" with field=form.author_name %}</div>
+          </div>
+          {% include "dashboard/includes/form_field.html" with field=form.short_description %}
+          {% include "dashboard/includes/form_field.html" with field=form.content %}
+        </section>
+      </div>
+
+      <aside class="col-xl-4">
+        <section class="dashboard-card form-section-card mb-4">
+          <div class="form-section-header">
+            <span>2</span>
+            <div>
+              <h2 class="h5 mb-1">SEO and Media</h2>
+              <p class="text-secondary small mb-0">Add optional metadata and a guide image.</p>
+            </div>
+          </div>
+
+          {% if post and post.image %}
+            <div class="current-image-preview mb-3">
+              <p class="form-label fw-semibold mb-2">Current image</p>
+              <img src="{{ post.image.url }}" alt="{{ post.title }}">
+            </div>
+          {% endif %}
+
+          {% include "dashboard/includes/form_field.html" with field=form.image %}
+          {% include "dashboard/includes/form_field.html" with field=form.meta_title %}
+          {% include "dashboard/includes/form_field.html" with field=form.meta_description %}
+        </section>
+
+        <section class="dashboard-card form-section-card mb-4">
+          <div class="form-section-header">
+            <span>3</span>
+            <div>
+              <h2 class="h5 mb-1">Publish Options</h2>
+              <p class="text-secondary small mb-0">Choose whether this guide is saved as draft or published now.</p>
+            </div>
+          </div>
+          <p class="small text-secondary mb-0">Use “Save as Draft” to keep the guide hidden from the public site. Use “Publish Now” to make it visible immediately.</p>
+        </section>
+      </aside>
+    </div>
+
+    <div class="editor-actions d-flex flex-wrap gap-2 justify-content-end">
+      <a class="btn btn-outline-secondary" href="{% url 'dashboard:guides' %}">Cancel</a>
+      <button class="btn btn-outline-success" type="submit" name="publish_action" value="draft">Save as Draft</button>
+      <button class="btn btn-success" type="submit" name="publish_action" value="publish">Publish Now</button>
+    </div>
+  </form>
+{% endblock %}

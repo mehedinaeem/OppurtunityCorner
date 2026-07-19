@@ -1,0 +1,220 @@
+:root {
+  color-scheme: light;
+  --page-bg: #f6faf8;
+  --ink: #10201a;
+  --muted: #5d6b64;
+  --brand: #157347;
+  --soft: #eaf5ef;
+  --line: #dfe9e4;
+}
+
+body {
+  background: var(--page-bg);
+  color: var(--ink);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+a {
+  color: var(--brand);
+}
+
+.navbar {
+  min-height: 72px;
+}
+
+.hero-section,
+.page-heading,
+.detail-hero {
+  background:
+    linear-gradient(135deg, rgba(21, 115, 71, 0.1), rgba(255, 255, 255, 0.2)),
+    #ffffff;
+}
+
+.hero-panel {
+  background: var(--soft);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+
+.home-hero {
+  border-bottom: 1px solid var(--line);
+}
+
+.hero-search {
+  box-shadow: 0 16px 40px rgba(16, 32, 26, 0.08);
+}
+
+.section-heading {
+  max-width: 720px;
+}
+
+.quick-link {
+  align-items: center;
+  background: #ffffff;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  color: var(--ink);
+  display: flex;
+  font-weight: 700;
+  min-height: 76px;
+  padding: 18px;
+  text-decoration: none;
+}
+
+.quick-link:hover {
+  border-color: var(--brand);
+  color: var(--brand);
+}
+
+.category-card,
+.country-card,
+.guide-card {
+  background: #ffffff;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+
+.category-card,
+.country-card {
+  color: var(--ink);
+  display: flex;
+  text-decoration: none;
+}
+
+.category-card {
+  flex-direction: column;
+  gap: 10px;
+  min-height: 160px;
+  padding: 24px;
+}
+
+.category-card:hover,
+.country-card:hover {
+  border-color: var(--brand);
+  color: var(--ink);
+}
+
+.category-card-label {
+  color: var(--brand);
+  font-size: 1.2rem;
+  font-weight: 750;
+}
+
+.country-card {
+  align-items: center;
+  justify-content: space-between;
+  min-height: 72px;
+  padding: 18px;
+}
+
+.guide-card {
+  height: 100%;
+  padding: 24px;
+}
+
+.opportunity-card {
+  border-color: var(--line);
+  border-radius: 8px;
+  box-shadow: 0 12px 32px rgba(16, 32, 26, 0.06);
+  transition: transform 160ms ease, box-shadow 160ms ease;
+}
+
+.guide-post-card {
+  border-color: var(--line);
+  border-radius: 8px;
+  box-shadow: 0 12px 32px rgba(16, 32, 26, 0.06);
+}
+
+.opportunity-card:hover {
+  box-shadow: 0 16px 36px rgba(16, 32, 26, 0.1);
+  transform: translateY(-2px);
+}
+
+.opportunity-image {
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+
+.filters {
+  box-shadow: 0 10px 28px rgba(16, 32, 26, 0.05);
+}
+
+.empty-state {
+  background: #ffffff;
+  border: 1px dashed var(--line);
+  border-radius: 8px;
+  color: var(--muted);
+  padding: 36px 24px;
+  text-align: center;
+}
+
+.apply-box {
+  box-shadow: 0 14px 34px rgba(16, 32, 26, 0.08);
+}
+
+.newsletter-box {
+  border-color: var(--line);
+  box-shadow: 0 12px 30px rgba(16, 32, 26, 0.06);
+}
+
+.breadcrumb-wrap .breadcrumb a {
+  color: var(--brand);
+  text-decoration: none;
+}
+
+.advertise-cta {
+  box-shadow: 0 16px 40px rgba(16, 32, 26, 0.12);
+}
+
+.dashboard-preview-bar {
+  position: sticky;
+  top: 72px;
+  z-index: 1010;
+}
+
+.detail-image {
+  aspect-ratio: 21 / 9;
+  border-radius: 8px;
+  display: block;
+  object-fit: cover;
+  width: 100%;
+}
+
+.content-block {
+  border-color: var(--line);
+}
+
+.content-body {
+  color: #33423b;
+  font-size: 1.02rem;
+  line-height: 1.75;
+}
+
+.organization-logo {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  max-height: 96px;
+  max-width: 180px;
+  object-fit: contain;
+  padding: 8px;
+}
+
+.page-link {
+  color: var(--brand);
+}
+
+.active > .page-link,
+.page-link.active {
+  background-color: var(--brand);
+  border-color: var(--brand);
+}
+
+@media (max-width: 575.98px) {
+  .display-4 {
+    font-size: 2.45rem;
+  }
+
+  .detail-image {
+    aspect-ratio: 4 / 3;
+  }
+}

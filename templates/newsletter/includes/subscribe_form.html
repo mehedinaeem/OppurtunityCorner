@@ -1,0 +1,23 @@
+<div class="newsletter-box bg-white border rounded-3 p-4">
+  <h2 class="{{ title_class|default:'h5' }} mb-2">{{ title|default:"Get Opportunity Updates" }}</h2>
+  <p class="text-secondary small mb-3">{{ description|default:"Subscribe for scholarship, internship, job and fellowship updates." }}</p>
+  <form action="{% url 'newsletter:subscribe' %}" method="post">
+    {% csrf_token %}
+    <input type="hidden" name="next" value="{{ request.get_full_path }}">
+    <div class="row g-2">
+      {% if show_name %}
+        <div class="col-12">
+          <label class="visually-hidden" for="{{ form_id|default:'newsletter' }}-name">Name</label>
+          <input class="form-control" id="{{ form_id|default:'newsletter' }}-name" type="text" name="name" placeholder="Your name" autocomplete="name">
+        </div>
+      {% endif %}
+      <div class="{{ email_col|default:'col-12' }}">
+        <label class="visually-hidden" for="{{ form_id|default:'newsletter' }}-email">Email address</label>
+        <input class="form-control" id="{{ form_id|default:'newsletter' }}-email" type="email" name="email" placeholder="Email address" autocomplete="email" required>
+      </div>
+      <div class="{{ button_col|default:'col-12' }}">
+        <button class="btn btn-success w-100" type="submit">Subscribe</button>
+      </div>
+    </div>
+  </form>
+</div>

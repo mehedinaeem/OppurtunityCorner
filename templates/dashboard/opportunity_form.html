@@ -1,0 +1,118 @@
+{% extends "dashboard/base.html" %}
+
+{% block title %}{{ page_title }} | OpportunityHub Dashboard{% endblock %}
+{% block page_title %}{{ page_title }}{% endblock %}
+
+{% block content %}
+  <form class="opportunity-editor" method="post" enctype="multipart/form-data" novalidate>
+    {% csrf_token %}
+    {% if form.non_field_errors %}
+      <div class="alert alert-danger">
+        {{ form.non_field_errors }}
+      </div>
+    {% endif %}
+
+    <div class="row g-4">
+      <div class="col-xl-8">
+        <section class="dashboard-card form-section-card mb-4">
+          <div class="form-section-header">
+            <span>1</span>
+            <div>
+              <h2 class="h5 mb-1">Basic Information</h2>
+              <p class="text-secondary small mb-0">Set the core identity and classification for this opportunity.</p>
+            </div>
+          </div>
+          {% include "dashboard/includes/form_field.html" with field=form.title %}
+          <div class="row g-3">
+            <div class="col-md-6">{% include "dashboard/includes/form_field.html" with field=form.category %}</div>
+            <div class="col-md-6">{% include "dashboard/includes/form_field.html" with field=form.opportunity_type %}</div>
+            <div class="col-md-6">{% include "dashboard/includes/form_field.html" with field=form.country %}</div>
+            <div class="col-md-6">{% include "dashboard/includes/form_field.html" with field=form.organization %}</div>
+          </div>
+        </section>
+
+        <section class="dashboard-card form-section-card mb-4">
+          <div class="form-section-header">
+            <span>2</span>
+            <div>
+              <h2 class="h5 mb-1">Opportunity Details</h2>
+              <p class="text-secondary small mb-0">Add the content readers need before deciding to apply.</p>
+            </div>
+          </div>
+          <div class="row g-3">
+            <div class="col-md-6">{% include "dashboard/includes/form_field.html" with field=form.funding_type %}</div>
+            <div class="col-md-6">{% include "dashboard/includes/form_field.html" with field=form.education_level %}</div>
+          </div>
+          {% include "dashboard/includes/form_field.html" with field=form.short_description %}
+          {% include "dashboard/includes/form_field.html" with field=form.overview %}
+          {% include "dashboard/includes/form_field.html" with field=form.benefits %}
+          {% include "dashboard/includes/form_field.html" with field=form.eligibility %}
+          {% include "dashboard/includes/form_field.html" with field=form.required_documents %}
+        </section>
+
+        <section class="dashboard-card form-section-card mb-4">
+          <div class="form-section-header">
+            <span>3</span>
+            <div>
+              <h2 class="h5 mb-1">Application Information</h2>
+              <p class="text-secondary small mb-0">Make the deadline and official application path easy to verify.</p>
+            </div>
+          </div>
+          <div class="row g-3">
+            <div class="col-md-6">{% include "dashboard/includes/form_field.html" with field=form.deadline %}</div>
+            <div class="col-md-6">{% include "dashboard/includes/form_field.html" with field=form.official_link %}</div>
+          </div>
+          {% include "dashboard/includes/form_field.html" with field=form.application_process %}
+        </section>
+      </div>
+
+      <aside class="col-xl-4">
+        <section class="dashboard-card form-section-card mb-4">
+          <div class="form-section-header">
+            <span>4</span>
+            <div>
+              <h2 class="h5 mb-1">SEO and Source</h2>
+              <p class="text-secondary small mb-0">Optional metadata and source attribution.</p>
+            </div>
+          </div>
+          {% include "dashboard/includes/form_field.html" with field=form.meta_title %}
+          {% include "dashboard/includes/form_field.html" with field=form.meta_description %}
+          {% include "dashboard/includes/form_field.html" with field=form.source_name %}
+          {% include "dashboard/includes/form_field.html" with field=form.source_url %}
+        </section>
+
+        <section class="dashboard-card form-section-card mb-4">
+          <div class="form-section-header">
+            <span>5</span>
+            <div>
+              <h2 class="h5 mb-1">Publish Settings</h2>
+              <p class="text-secondary small mb-0">Control visibility, featured placement and media.</p>
+            </div>
+          </div>
+
+          {% if opportunity and opportunity.image %}
+            <div class="current-image-preview mb-3">
+              <p class="form-label fw-semibold mb-2">Current image</p>
+              <img src="{{ opportunity.image.url }}" alt="{{ opportunity.title }}">
+            </div>
+          {% endif %}
+
+          {% include "dashboard/includes/form_field.html" with field=form.image %}
+          {% include "dashboard/includes/form_field.html" with field=form.tags %}
+          {% include "dashboard/includes/form_field.html" with field=form.is_featured %}
+          {% if form.publish_now %}
+            {% include "dashboard/includes/form_field.html" with field=form.publish_now %}
+            <p class="small text-secondary mb-0">New opportunities stay unpublished unless “Publish now” is checked.</p>
+          {% else %}
+            {% include "dashboard/includes/form_field.html" with field=form.is_published %}
+          {% endif %}
+        </section>
+      </aside>
+    </div>
+
+    <div class="editor-actions d-flex flex-wrap gap-2 justify-content-end">
+      <a class="btn btn-outline-secondary" href="{% url 'dashboard:opportunities' %}">Cancel</a>
+      <button class="btn btn-success" type="submit">Save Opportunity</button>
+    </div>
+  </form>
+{% endblock %}

@@ -1,0 +1,177 @@
+{% extends "base.html" %}
+
+{% block title %}{{ opportunity.seo_title }} | {{ opportunity.get_opportunity_type_display }} | OpportunityHub{% endblock %}
+{% block meta_description %}{{ opportunity.seo_description|truncatewords:28 }}{% endblock %}
+{% block canonical_url %}{{ canonical_url }}{% endblock %}
+{% block og_type %}article{% endblock %}
+{% block og_title %}{{ opportunity.seo_title }}{% endblock %}
+{% block og_description %}{{ opportunity.seo_description|truncatewords:28 }}{% endblock %}
+{% block og_image %}{% if og_image %}<meta property="og:image" content="{{ og_image }}">{% endif %}{% endblock %}
+{% block twitter_card %}{% if og_image %}summary_large_image{% else %}summary{% endif %}{% endblock %}
+{% block twitter_title %}{{ opportunity.seo_title }}{% endblock %}
+{% block twitter_description %}{{ opportunity.seo_description|truncatewords:28 }}{% endblock %}
+{% block twitter_image %}{% if og_image %}<meta name="twitter:image" content="{{ og_image }}">{% endif %}{% endblock %}
+
+{% block content %}
+  {% if dashboard_preview %}
+    <section class="dashboard-preview-bar bg-dark text-white py-3">
+      <div class="container d-flex flex-column flex-lg-row align-items-lg-center justify-content-between gap-3">
+        <div>
+          <p class="text-uppercase small fw-semibold mb-1">Dashboard Preview</p>
+          <div class="small text-white-50">
+            {% if opportunity.is_published %}This opportunity is published.{% else %}This opportunity is currently unpublished.{% endif %}
+          </div>
+        </div>
+        <div class="d-flex flex-wrap gap-2">
+          <a class="btn btn-outline-light btn-sm" href="{% url 'dashboard:edit_opportunity' opportunity.pk %}">Edit</a>
+          {% if not opportunity.is_published %}
+            <form method="post" action="{% url 'dashboard:publish_opportunity' opportunity.pk %}">
+              {% csrf_token %}
+              <input type="hidden" name="next" value="{% url 'dashboard:preview_opportunity' opportunity.pk %}">
+              <button class="btn btn-success btn-sm" type="submit">Publish</button>
+            </form>
+          {% else %}
+            <span class="btn btn-success btn-sm disabled">Published</span>
+          {% endif %}
+          <a class="btn btn-outline-light btn-sm" href="{% url 'dashboard:draft_opportunities' %}">Back to Drafts</a>
+        </div>
+      </div>
+    </section>
+  {% endif %}
+
+  <nav class="breadcrumb-wrap bg-white border-bottom" aria-label="breadcrumb">
+    <div class="container py-3">
+      <ol class="breadcrumb mb-0 small">
+        <li class="breadcrumb-item"><a href="{% url 'pages:home' %}">Home</a></li>
+        <li class="breadcrumb-item"><a href="{% url 'opportunities:list' %}">Opportunities</a></li>
+        <li class="breadcrumb-item"><a href="{{ opportunity.category.get_absolute_url }}">{{ opportunity.category.name }}</a></li>
+        <li class="breadcrumb-item active" aria-current="page">{{ opportunity.title|truncatechars:48 }}</li>
+      </ol>
+    </div>
+  </nav>
+
+  <article>
+    <section class="detail-hero py-5">
+      <div class="container">
+        <div class="row g-4 align-items-center">
+          <div class="col-lg-8">
+            <div class="d-flex flex-wrap gap-2 mb-3">
+              <span class="badge text-bg-success">{{ opportunity.get_opportunity_type_display }}</span>
+              <span class="badge text-bg-light border">{{ opportunity.get_funding_type_display }}</span>
+              <span class="badge text-bg-light border">{{ opportunity.get_education_level_display }}</span>
+              {% if opportunity.has_expired %}
+                <span class="badge text-bg-danger">Expired</span>
+              {% endif %}
+            </div>
+            <h1 class="display-6 fw-bold mb-3">{{ opportunity.title }}</h1>
+            <p class="lead text-secondary mb-4">{{ opportunity.short_description }}</p>
+            <div class="d-flex flex-wrap gap-3 text-secondary">
+              <span>{{ opportunity.organization.name }}</span>
+              <span>{{ opportunity.country.name }}</span>
+              <span>Deadline: {% if opportunity.deadline %}{{ opportunity.deadline|date:"F d, Y" }}{% else %}Not specified{% endif %}</span>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="apply-box bg-white border rounded-3 p-4">
+              <h2 class="h5 mb-3">Official Application</h2>
+              {% if opportunity.official_link %}
+                <a class="btn btn-success btn-lg w-100" href="{{ opportunity.official_link }}" target="_blank" rel="noopener noreferrer">Apply Officially</a>
+              {% else %}
+                <button class="btn btn-secondary btn-lg w-100" type="button" disabled>Official link unavailable</button>
+              {% endif %}
+              <dl class="row small text-secondary mt-4 mb-0">
+                <dt class="col-5">Category</dt>
+                <dd class="col-7"><a href="{{ opportunity.category.get_absolute_url }}">{{ opportunity.category.name }}</a></dd>
+                <dt class="col-5">Country</dt>
+                <dd class="col-7"><a href="{{ opportunity.country.get_absolute_url }}">{{ opportunity.country.name }}</a></dd>
+                <dt class="col-5">Updated</dt>
+                <dd class="col-7">{{ opportunity.updated_at|date:"M d, Y" }}</dd>
+              </dl>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    {% if opportunity.image %}
+      <section class="container mb-4">
+        <img class="detail-image" src="{{ opportunity.image.url }}" alt="{{ opportunity.title }}">
+      </section>
+    {% endif %}
+
+    <section class="container py-4">
+      <div class="row g-4">
+        <div class="col-lg-8">
+          {% include "opportunities/includes/detail_block.html" with title="Overview" body=opportunity.overview %}
+          {% include "opportunities/includes/detail_block.html" with title="Benefits" body=opportunity.benefits %}
+          {% include "opportunities/includes/detail_block.html" with title="Eligibility" body=opportunity.eligibility %}
+          {% include "opportunities/includes/detail_block.html" with title="Required Documents" body=opportunity.required_documents %}
+          {% include "opportunities/includes/detail_block.html" with title="Application Process" body=opportunity.application_process %}
+        </div>
+        <aside class="col-lg-4">
+          <div class="bg-white border rounded-3 p-4 mb-4">
+            <h2 class="h5 mb-3">Organization</h2>
+            {% if opportunity.organization.logo %}
+              <img class="organization-logo mb-3" src="{{ opportunity.organization.logo.url }}" alt="{{ opportunity.organization.name }} logo">
+            {% endif %}
+            <h3 class="h6">{{ opportunity.organization.name }}</h3>
+            {% if opportunity.organization.description %}
+              <p class="small text-secondary">{{ opportunity.organization.description }}</p>
+            {% endif %}
+            {% if opportunity.organization.website %}
+              <a class="small fw-semibold" href="{{ opportunity.organization.website }}" target="_blank" rel="noopener noreferrer">Visit organization website</a>
+            {% endif %}
+          </div>
+
+          {% if opportunity.tags.all %}
+            <div class="bg-white border rounded-3 p-4 mb-4">
+              <h2 class="h5 mb-3">Tags</h2>
+              <div class="d-flex flex-wrap gap-2">
+                {% for tag in opportunity.tags.all %}
+                  <span class="badge text-bg-light border">{{ tag.name }}</span>
+                {% endfor %}
+              </div>
+            </div>
+          {% endif %}
+
+          <div class="mb-4">
+            {% include "newsletter/includes/subscribe_form.html" with title="Get Similar Updates" description="Subscribe for new opportunities like this one." show_name=True form_id="detail-newsletter" %}
+          </div>
+
+          {% if opportunity.source_name or opportunity.source_url %}
+            <div class="bg-white border rounded-3 p-4">
+              <h2 class="h5 mb-3">Source</h2>
+              {% if opportunity.source_url %}
+                <a href="{{ opportunity.source_url }}" target="_blank" rel="noopener noreferrer">{{ opportunity.source_name|default:"Original source" }}</a>
+              {% else %}
+                <p class="mb-0">{{ opportunity.source_name }}</p>
+              {% endif %}
+            </div>
+          {% endif %}
+        </aside>
+      </div>
+    </section>
+  </article>
+
+  <section class="py-4">
+    <div class="container">
+      <h2 class="h3 mb-3">Related Opportunities</h2>
+      {% if related_opportunities %}
+        <div class="row g-4">
+          {% for opportunity in related_opportunities %}
+            <div class="col-md-6 col-xl-3">
+              {% include "opportunities/includes/opportunity_card.html" %}
+            </div>
+          {% endfor %}
+        </div>
+      {% else %}
+        <div class="empty-state">Related opportunities will appear here as more updates are published.</div>
+      {% endif %}
+    </div>
+  </section>
+
+  <script type="application/ld+json">{{ structured_data_json|safe }}</script>
+  {% if job_posting_schema_json %}
+    <script type="application/ld+json">{{ job_posting_schema_json|safe }}</script>
+  {% endif %}
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}Terms and Conditions | OpportunityHub{% endblock %}
+{% block meta_description %}Review the terms and conditions for using OpportunityHub.{% endblock %}
+
+{% block content %}
+  {% include "pages/includes/page_header.html" with title="Terms and Conditions" description="The basic terms for accessing and using OpportunityHub." %}
+
+  <section class="container py-5">
+    <div class="content-block bg-white border rounded-3 p-4">
+      <h2 class="h4 mb-3">Use of Content</h2>
+      <p>OpportunityHub provides opportunity information for general awareness. You may use the website for personal, educational and professional discovery.</p>
+      <h2 class="h4 mt-4 mb-3">Accuracy</h2>
+      <p>We aim to keep information accurate and timely, but deadlines, eligibility rules and application details can change. Always verify details on the official source before applying.</p>
+      <h2 class="h4 mt-4 mb-3">Submitted Content</h2>
+      <p>By submitting an opportunity, you confirm that the information is accurate to the best of your knowledge and that we may review, edit or decline it.</p>
+      <h2 class="h4 mt-4 mb-3">Changes</h2>
+      <p class="mb-0">We may update these terms as the website grows.</p>
+    </div>
+  </section>
+{% endblock %}

@@ -1,0 +1,56 @@
+{% extends "dashboard/base.html" %}
+
+{% block title %}{{ page_title }} | OpportunityHub Dashboard{% endblock %}
+{% block page_title %}{{ page_title }}{% endblock %}
+
+{% block content %}
+  <section class="dashboard-card">
+    <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-3">
+      <p class="text-secondary mb-0">Create, edit, preview and publish SEO guide posts.</p>
+      <a class="btn btn-success btn-sm" href="{% url 'dashboard:create_guide' %}">Add Guide Post</a>
+    </div>
+
+    <div class="table-responsive">
+      <table class="table align-middle">
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Category</th>
+            <th>Published</th>
+            <th>Created</th>
+            <th class="text-end">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for post in posts %}
+            <tr>
+              <td>
+                <div class="fw-semibold">{{ post.title }}</div>
+                <div class="small text-secondary">{{ post.short_description|truncatewords:12 }}</div>
+              </td>
+              <td>{{ post.category.name }}</td>
+              <td>
+                {% if post.is_published %}
+                  <span class="badge text-bg-success">Published</span>
+                {% else %}
+                  <span class="badge text-bg-secondary">Draft</span>
+                {% endif %}
+              </td>
+              <td>{{ post.created_at|date:"M d, Y" }}</td>
+              <td class="text-end">
+                <div class="btn-group btn-group-sm" role="group" aria-label="Manage {{ post.title }}">
+                  <a class="btn btn-outline-secondary" href="{% url 'dashboard:preview_guide' post.pk %}">Preview</a>
+                  <a class="btn btn-outline-success" href="{% url 'dashboard:edit_guide' post.pk %}">Edit</a>
+                  <a class="btn btn-outline-danger" href="{% url 'dashboard:delete_guide' post.pk %}">Delete</a>
+                </div>
+              </td>
+            </tr>
+          {% empty %}
+            <tr><td colspan="5" class="text-center text-secondary py-4">No guide posts found.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% include "dashboard/includes/pagination.html" with page_obj=posts %}
+  </section>
+{% endblock %}

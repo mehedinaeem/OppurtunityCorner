@@ -1,0 +1,11 @@
+<section class="page-heading py-5">
+  <div class="container">
+    <div class="col-lg-8">
+      <p class="text-success fw-semibold text-uppercase small mb-2">{{ eyebrow|default:"OpportunityHub" }}</p>
+      <h1 class="display-6 fw-bold mb-3">{{ title }}</h1>
+      {% if description %}
+        <p class="lead text-secondary mb-0">{{ description }}</p>
+      {% endif %}
+    </div>
+  </div>
+</section>

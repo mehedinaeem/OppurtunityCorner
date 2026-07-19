@@ -1,0 +1,15 @@
+<article class="card guide-post-card h-100">
+  {% if post.image %}
+    <img src="{{ post.image.url }}" class="card-img-top opportunity-image" alt="{{ post.title }}">
+  {% endif %}
+  <div class="card-body d-flex flex-column">
+    <div class="small text-success fw-semibold mb-2">{{ post.category.name }}</div>
+    <h3 class="h5 card-title">
+      <a class="stretched-link text-decoration-none text-dark" href="{{ post.get_absolute_url }}">{{ post.title }}</a>
+    </h3>
+    <p class="card-text text-secondary flex-grow-1">{{ post.short_description|truncatewords:24 }}</p>
+    <div class="small text-secondary mt-3">
+      {% if post.author_name %}By {{ post.author_name }} &middot; {% endif %}{{ post.created_at|date:"M d, Y" }}
+    </div>
+  </div>
+</article>

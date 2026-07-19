@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}{{ page_title }} | OpportunityHub{% endblock %}
+{% block meta_description %}{{ page_description }}{% endblock %}
+{% block canonical_url %}{{ canonical_url }}{% endblock %}
+{% block og_title %}{{ page_title }} | OpportunityHub{% endblock %}
+{% block og_description %}{{ page_description }}{% endblock %}
+{% block twitter_title %}{{ page_title }} | OpportunityHub{% endblock %}
+{% block twitter_description %}{{ page_description }}{% endblock %}
+
+{% block content %}
+  <section class="page-heading py-5">
+    <div class="container">
+      <h1 class="display-6 fw-bold mb-3">{{ page_title }}</h1>
+      <p class="lead text-secondary mb-0">{{ page_description }}</p>
+    </div>
+  </section>
+
+  <section class="py-5">
+    <div class="container">
+      {% if categories %}
+        <div class="d-flex flex-wrap gap-2 mb-4">
+          <a class="btn btn-outline-success btn-sm" href="{% url 'guides:list' %}">All Guides</a>
+          {% for guide_category in categories %}
+            <a class="btn btn-outline-secondary btn-sm" href="{{ guide_category.get_absolute_url }}">{{ guide_category.name }}</a>
+          {% endfor %}
+        </div>
+      {% endif %}
+
+      {% if posts.object_list %}
+        <div class="row g-4">
+          {% for post in posts %}
+            <div class="col-md-6 col-xl-4">
+              {% include "guides/includes/guide_card.html" %}
+            </div>
+          {% endfor %}
+        </div>
+        {% include "guides/includes/pagination.html" %}
+      {% else %}
+        <div class="empty-state">Guide articles will appear here soon.</div>
+      {% endif %}
+    </div>
+  </section>
+{% endblock %}

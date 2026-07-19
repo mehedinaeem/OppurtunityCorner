@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}Search Results{% if query %} for {{ query }}{% endif %} | OpportunityHub{% endblock %}
+{% block meta_description %}Search OpportunityHub for scholarships, jobs, internships, fellowships and other opportunities.{% endblock %}
+
+{% block content %}
+  <section class="page-heading py-5">
+    <div class="container">
+      <h1 class="display-6 fw-bold mb-3">Search Results</h1>
+      <form class="row g-2" action="{% url 'opportunities:search' %}" method="get">
+        <div class="col-md-9 col-lg-10">
+          <label class="visually-hidden" for="search-query">Search opportunities</label>
+          <input class="form-control form-control-lg" id="search-query" type="search" name="q" value="{{ query }}" placeholder="Search scholarships, countries, organizations or tags">
+        </div>
+        <div class="col-md-3 col-lg-2">
+          <button class="btn btn-success btn-lg w-100" type="submit">Search</button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <section class="py-4">
+    <div class="container">
+      {% if query %}
+        <p class="text-secondary">Showing results for <strong>{{ query }}</strong>.</p>
+      {% endif %}
+
+      {% if opportunities.object_list %}
+        <div class="row g-4">
+          {% for opportunity in opportunities %}
+            <div class="col-md-6 col-xl-4">
+              {% include "opportunities/includes/opportunity_card.html" %}
+            </div>
+          {% endfor %}
+        </div>
+        {% include "opportunities/includes/pagination.html" %}
+      {% else %}
+        <div class="empty-state">
+          {% if query %}No opportunities matched your search.{% else %}Enter a keyword to search opportunities.{% endif %}
+        </div>
+      {% endif %}
+    </div>
+  </section>
+{% endblock %}

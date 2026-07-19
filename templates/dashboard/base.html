@@ -1,0 +1,63 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}Dashboard | OpportunityHub{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'dashboard/css/dashboard.css' %}">
+  </head>
+  <body>
+    <div class="dashboard-shell">
+      <aside class="dashboard-sidebar">
+        <div class="sidebar-brand">
+          <a href="{% url 'dashboard:home' %}">OpportunityHub</a>
+          <span>Staff Dashboard</span>
+        </div>
+        <nav class="sidebar-nav" aria-label="Dashboard navigation">
+          <a href="{% url 'dashboard:home' %}">Dashboard Home</a>
+          <a href="{% url 'dashboard:opportunities' %}">All Opportunities</a>
+          <a href="{% url 'dashboard:create_opportunity' %}">Add Opportunity</a>
+          <a href="{% url 'dashboard:draft_opportunities' %}">Draft Opportunities</a>
+          <a href="{% url 'dashboard:published_opportunities' %}">Published Opportunities</a>
+          <a href="{% url 'dashboard:expired_opportunities' %}">Expired Opportunities</a>
+          <a href="{% url 'dashboard:guides' %}">Guide Posts</a>
+          <a href="{% url 'dashboard:categories' %}">Categories</a>
+          <a href="{% url 'dashboard:countries' %}">Countries</a>
+          <a href="{% url 'dashboard:organizations' %}">Organizations</a>
+          <a href="{% url 'dashboard:newsletter_subscribers' %}">Newsletter Subscribers</a>
+        </nav>
+      </aside>
+
+      <div class="dashboard-main">
+        <header class="dashboard-topbar">
+          <div>
+            <p class="text-success fw-semibold text-uppercase small mb-1">OpportunityHub</p>
+            <h1 class="h3 mb-0">{% block page_title %}Dashboard Home{% endblock %}</h1>
+          </div>
+          <div class="d-flex flex-wrap gap-2">
+            <a class="btn btn-outline-success btn-sm" href="{% url 'pages:home' %}">View Site</a>
+            <a class="btn btn-success btn-sm" href="{% url 'admin:index' %}">Django Admin</a>
+          </div>
+        </header>
+
+        {% if messages %}
+          <div class="dashboard-messages">
+            {% for message in messages %}
+              <div class="alert alert-{{ message.tags|default:'info' }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+            {% endfor %}
+          </div>
+        {% endif %}
+
+        <main class="dashboard-content">
+          {% block content %}{% endblock %}
+        </main>
+      </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>

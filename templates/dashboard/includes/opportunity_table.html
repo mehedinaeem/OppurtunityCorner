@@ -1,0 +1,75 @@
+<div class="table-responsive">
+  <table class="table align-middle">
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Type</th>
+        <th>Category</th>
+        <th>Country</th>
+        <th>Deadline</th>
+        <th>Published</th>
+        <th>Featured</th>
+        <th>Expired</th>
+        <th>Created</th>
+        <th class="text-end">Manage</th>
+        <th>Quick Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for opportunity in opportunities %}
+        <tr>
+          <td>
+            <div class="fw-semibold">{{ opportunity.title }}</div>
+            <div class="small text-secondary">{{ opportunity.organization.name }}</div>
+          </td>
+          <td>{{ opportunity.get_opportunity_type_display }}</td>
+          <td>{{ opportunity.category.name }}</td>
+          <td>{{ opportunity.country.name }}</td>
+          <td>{% if opportunity.deadline %}{{ opportunity.deadline|date:"M d, Y" }}{% else %}-{% endif %}</td>
+          <td>
+            {% if opportunity.is_published %}<span class="badge text-bg-success">Yes</span>{% else %}<span class="badge text-bg-secondary">No</span>{% endif %}
+          </td>
+          <td>{% if opportunity.is_featured %}<span class="badge text-bg-success">Yes</span>{% else %}<span class="badge text-bg-secondary">No</span>{% endif %}</td>
+          <td>{% if opportunity.has_expired %}<span class="badge text-bg-danger">Yes</span>{% else %}<span class="badge text-bg-light border">No</span>{% endif %}</td>
+          <td>{{ opportunity.created_at|date:"M d, Y" }}</td>
+          <td class="text-end">
+            <div class="btn-group btn-group-sm" role="group" aria-label="Manage {{ opportunity.title }}">
+              <a class="btn btn-outline-success" href="{% url 'dashboard:edit_opportunity' opportunity.pk %}">Edit</a>
+              <a class="btn btn-outline-secondary" href="{% url 'dashboard:preview_opportunity' opportunity.pk %}">Preview</a>
+              <a class="btn btn-outline-danger" href="{% url 'dashboard:delete_opportunity' opportunity.pk %}">Delete</a>
+            </div>
+          </td>
+          <td>
+            <div class="quick-actions">
+              {% if opportunity.is_published %}
+                <form method="post" action="{% url 'dashboard:unpublish_opportunity' opportunity.pk %}">
+                  {% csrf_token %}
+                  <input type="hidden" name="next" value="{{ request.get_full_path }}">
+                  <button class="btn btn-sm btn-outline-secondary" type="submit">Unpublish</button>
+                </form>
+              {% else %}
+                <form method="post" action="{% url 'dashboard:publish_opportunity' opportunity.pk %}">
+                  {% csrf_token %}
+                  <input type="hidden" name="next" value="{{ request.get_full_path }}">
+                  <button class="btn btn-sm btn-outline-success" type="submit">Publish</button>
+                </form>
+              {% endif %}
+              <form method="post" action="{% url 'dashboard:feature_opportunity' opportunity.pk %}">
+                {% csrf_token %}
+                <input type="hidden" name="next" value="{{ request.get_full_path }}">
+                <button class="btn btn-sm btn-outline-warning" type="submit">Mark as Featured</button>
+              </form>
+              <form method="post" action="{% url 'dashboard:expire_opportunity' opportunity.pk %}">
+                {% csrf_token %}
+                <input type="hidden" name="next" value="{{ request.get_full_path }}">
+                <button class="btn btn-sm btn-outline-danger" type="submit">Mark as Expired</button>
+              </form>
+            </div>
+          </td>
+        </tr>
+      {% empty %}
+        <tr><td colspan="11" class="text-center text-secondary py-4">No opportunities found.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
